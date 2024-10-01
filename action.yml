@@ -29,9 +29,11 @@ runs:
     #   uses: zmicro-design/action-setup-docker@v1
 
     - name: Set up Pipeline
+      shell: bash
       run: zmicro package install pipeline
 
     - name: Run Pipeline
+      shell: bash
       run: |
         CMD="pipeline run"
 
