@@ -37,6 +37,22 @@ runs:
       run: |
         CMD="pipeline run"
 
+        # GitHub Auth
+        CMD="$CMD --allow-env GITHUB_ACTIONS"
+        CMD="$CMD --allow-env GITHUB_TOKEN"
+        CMD="$CMD --allow-env GITHUB_REF_NAME"
+        CMD="$CMD --allow-env GITHUB_SERVER_URL"
+        CMD="$CMD --allow-env GITHUB_REPOSITORY"
+        CMD="$CMD --allow-env GITHUB_WORKSPACE"
+        #
+        CMD="$CMD --allow-env GITHUB_SHA"
+        CMD="$CMD --allow-env GITHUB_REF"
+        CMD="$CMD --allow-env GITHUB_REF_TYPE"
+        CMD="$CMD --allow-env GITHUB_REF_NAME"
+        CMD="$CMD --allow-env GITHUB_ACTOR"
+        CMD="$CMD --allow-env GITHUB_ACTOR_ID"
+        CMD="$CMD --allow-env GITHUB_WORKFLOW"
+
         CONFIG=${{ inputs.config }}
         WORKDIR=${{ inputs.workdir }}
         ALLOW_ENVS=${{ inputs.allow-envs }}
