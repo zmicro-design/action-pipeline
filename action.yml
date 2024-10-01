@@ -18,6 +18,10 @@ inputs:
     required: false
     description: specify whether to allow all env into the pipeline
     default: "fasle"
+  debug:
+    required: false
+    description: "enable debug mode"
+    default: "false"
 
 runs:
   using: composite
@@ -35,6 +39,11 @@ runs:
     - name: Run Pipeline
       shell: bash
       run: |
+        DEBUG=${{ inputs.debug }}
+        if [ "$DEBUG" = "true" ]; then
+          export LOG_LEVEL=debug
+        fi
+
         CMD="pipeline run"
 
         # GitHub Auth
