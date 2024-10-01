@@ -15,11 +15,14 @@ jobs:
       # - name: Setup Node
       #   uses: actions/setup-node@v2
 
-      - name: Get Release Info
+      - name: Get Version
         id: releaser
         run: |
           version=$(echo ${GITHUB_REF} | sed -e "s%refs/tags/%%g")
           echo "version=${version}" >> $GITHUB_OUTPUT
+
+      - name: Test Code
+        uses: ./
 
       # Compile dist/index.js and bundle with action.yml
       # Force push major and minor tags, e.g. v1, v1.0
