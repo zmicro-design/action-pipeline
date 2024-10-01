@@ -9,7 +9,7 @@ inputs:
     required: false
     description: "specify pipeline config, default: .go-idp/pipeline.yaml"
   workdir:
-    required: fasle
+    required: false
     description: "specify the workdir, default: current dir"
   allow-envs:
     required: false
