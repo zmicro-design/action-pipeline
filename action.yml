@@ -1,0 +1,71 @@
+name: "Docker Build (+buildx) with Zmicro"
+description: "github action for docker (+buildx) with Zmicro"
+author: "Zero <GitHub: whatwewant>"
+branding:
+  icon: "message-square"
+  color: "green"
+inputs:
+  config:
+    required: false
+    description: "specify pipeline config, default: .go-idp/pipeline.yaml"
+  workdir:
+    required: fasle
+    description: "specify the workdir, default: current dir"
+  allow-envs:
+    required: false
+    description: specify build allow-envs
+  allow-all-env:
+    required: false
+    description: specify whether to allow all env into the pipeline
+    default: "fasle"
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Zmicro
+      uses: zmicro-design/action-setup-zmicro@v1
+
+    # - name: Set up Docker
+    #   uses: zmicro-design/action-setup-docker@v1
+
+    - name: Set up Pipeline
+      run: zmicro package install pipeline
+
+    - name: Run Pipeline
+      run: |
+        CMD="pipeline run"
+
+        CONFIG=${{ inputs.config }}
+        WORKDIR=${{ inputs.workdir }}
+        ALLOW_ENVS=${{ inputs.allow-envs }}
+        ALLOW_ALL_ENV=${{ inputs.allow-all-env }}
+
+        if [ -n "$CONFIG" ]; then
+          CMD="$CMD --config $CONFIG"
+        fi
+
+        if [ -z "$WORKDIR" ]; then
+          CMD="$CMD --workdir $WORKDIR"
+        fi
+
+        if [ "$ALLOW_ALL_ENV" != "true" ]; then
+          CMD="$CMD --allow-all-env"
+        fi
+
+        # if [ -n "$ALLOW_ENVS" ]; then
+        #   CMD="$CMD --allow-env $ALLOW_ENVS"
+        # fi
+
+        if [ -n "$ALLOW_ENVS" ]; then
+          ALLOW_ENVS_SPLITS=$(string::split , $ALLOW_ENVS)
+
+          add_tag() {
+            local envKey=$2
+            CMD="$CMD --allow-env $envKey"
+          }
+
+          array::each add_tag $ALLOW_ENVS_SPLITS
+        fi
+
+        echo "[$(date)] CMD: $CMD"
+        $CMD
