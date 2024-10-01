@@ -1,0 +1,7 @@
+{
+    "name": "action-pipeline",
+    "main": "dist/index.js",
+    "scripts": {
+      "build": "echo ok"
+    }
+  }
