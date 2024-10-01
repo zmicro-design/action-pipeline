@@ -46,11 +46,11 @@ runs:
           CMD="$CMD --config $CONFIG"
         fi
 
-        if [ -z "$WORKDIR" ]; then
+        if [ -n "$WORKDIR" ]; then
           CMD="$CMD --workdir $WORKDIR"
         fi
 
-        if [ "$ALLOW_ALL_ENV" != "true" ]; then
+        if [ "$ALLOW_ALL_ENV" = "true" ]; then
           CMD="$CMD --allow-all-env"
         fi
 
